@@ -20,22 +20,22 @@ jobs:
 
       - name: Install dependencies
         run: |
-          python -m venv venv
-          source venv/bin/activate
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run tests
+      - name: Run tests and generate HTML report
         run: |
-          source venv/bin/activate
           mkdir -p test-results
-          pytest --junitxml=test-results/report.xml
+          pytest --junitxml=test-results/report.xml --html=test-results/report.html --self-contained-html
 
-
-
-      - name: Upload test report
+      - name: Upload XML report
         uses: actions/upload-artifact@v4
         with:
-          name: test-report
+          name: test-report-xml
           path: test-results/report.xml
 
+      - name: Upload HTML report
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-report-html
+          path: test-results/report.html
